@@ -45,10 +45,10 @@
         <div class="col-md-12">
             
             <div class="d-flex flex-wrap gap-2 mb-3">
-                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">👤 Add Employee</button>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#generatePayrollModal">💸 Generate Payroll</button>
-                <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#calendarModal">🗓️ Add Time / Calendar</button>
-                <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#archivedModal">📂 View Archived</button>
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">Add Employee</button>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#generatePayrollModal">Generate Payroll</button>
+                <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#calendarModal">Attendance</button>
+                <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#archivedModal">View Archived</button>
             </div>
 
             <div class="card border-0 shadow-sm mb-4">
