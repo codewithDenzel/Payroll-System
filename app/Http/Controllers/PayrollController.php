@@ -13,21 +13,21 @@ use Carbon\Carbon;
 class PayrollController extends Controller {
     
     public function index() {
-    $user = Auth::user();
-    
-    if ($user->role === 'admin') {
-        $payrolls = Payroll::with('user')->latest()->get();
+        $user = Auth::user();
         
-        // This line ensures we grab ONLY the employees
-        $employees = User::where('role', 'employee')->get(); 
-        
-        $archived_payrolls = Payroll::onlyTrashed()->with('user')->latest()->get();
-        
-        return view('dashboard', compact('payrolls', 'employees', 'archived_payrolls'));
-    }
+        if ($user->role === 'admin') {
+            $payrolls = Payroll::with('user')->latest()->get();
+            
+            // This line ensures we grab ONLY the employees
+            $employees = User::where('role', 'employee')->get(); 
+            
+            $archived_payrolls = Payroll::onlyTrashed()->with('user')->latest()->get();
+            
+            return view('dashboard', compact('payrolls', 'employees', 'archived_payrolls'));
+        }
 
-    return redirect()->route('spectator.list');
-}
+        return redirect()->route('spectator.list');
+    }
 
     // --- NEW: SPECTATOR MODE FUNCTIONS ---
     public function spectatorList() {
@@ -45,13 +45,25 @@ class PayrollController extends Controller {
 
     public function storeEmployee(Request $request) {
         if (Auth::user()->role !== 'admin') abort(403);
-        $request->validate(['name' => 'required|string|max:255', 'email' => 'required|email|unique:users', 'role' => 'required|string', 'basic_salary' => 'required|numeric']);
+        
+        // Removed 'role' requirement here to avoid hidden validation crashes
+        $request->validate([
+            'name' => 'required|string|max:255', 
+            'email' => 'required|email|unique:users', 
+            'basic_salary' => 'required|numeric'
+        ]);
 
         User::create([
-            'name' => $request->name, 'email' => $request->email, 'password' => Hash::make('password123'),
-            'role' => $request->role, 'address' => $request->address, 'sex' => $request->sex,
-            'position' => $request->position, 'basic_salary' => $request->basic_salary
+            'name' => $request->name, 
+            'email' => $request->email, 
+            'password' => Hash::make('password123'),
+            'role' => 'employee', // Explicitly defaulting to employee
+            'address' => $request->address, 
+            'sex' => $request->sex,
+            'position' => $request->position, 
+            'basic_salary' => $request->basic_salary
         ]);
+        
         return back()->with('success', 'New employee profile created successfully!');
     }
 

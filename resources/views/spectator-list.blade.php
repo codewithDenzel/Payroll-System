@@ -35,8 +35,19 @@
             </div>
             
             <div class="text-center mt-4">
-                <a href="{{ route('login') }}" class="btn btn-outline-secondary btn-sm">🔒 Back to Admin Login</a>
-            </div>
+    @auth
+        <form method="POST" action="{{ route('logout') }}" class="d-inline">
+            @csrf
+            <button type="submit" class="btn btn-outline-danger btn-sm">
+                🔒 Log Out & Go to Login
+            </button>
+        </form>
+    @else
+        <a href="{{ route('login') }}" class="btn btn-outline-secondary btn-sm">
+            🔒 Back to Admin Login
+        </a>
+    @endauth
+</div>
         </div>
     </div>
 </div>
