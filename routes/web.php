@@ -8,7 +8,7 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-// NEW: Public Spectator Routes (No Login Required)
+// Employee mode Routes 
 Route::get('/employee-mode', [PayrollController::class, 'spectatorList'])->name('spectator.list');
 Route::get('/employee-mode/{id}', [PayrollController::class, 'spectatorShow'])->name('spectator.show');
 
@@ -22,6 +22,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/payroll/{id}', [PayrollController::class, 'archive'])->name('payroll.archive');
     Route::post('/payroll/restore/{id}', [PayrollController::class, 'restore'])->name('payroll.restore');
     Route::post('/payroll/approve/{id}', [PayrollController::class, 'approve'])->name('payroll.approve');
+    
+    // ADD THIS NEW ROUTE HERE:
+    Route::delete('/payroll/force-delete/{id}', [PayrollController::class, 'forceDelete'])->name('payroll.forceDelete');
 
     // Calendar and Employee Details
     Route::post('/attendance', [PayrollController::class, 'storeAttendance'])->name('attendance.store');
